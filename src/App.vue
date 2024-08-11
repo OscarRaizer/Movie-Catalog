@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import HeaderApp from './components/HeaderApp.vue'
+</script>
 
 <template>
-  <h1>hihi</h1>
+  <HeaderApp />
 </template>
 
 <style lang="scss" scoped></style>
