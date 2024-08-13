@@ -1,13 +1,19 @@
 <script setup>
 import SearchBar from './SearchBar.vue'
 import UserApp from './UserApp.vue'
+
+const emit = defineEmits(['search'])
+
+const handleSearch = (query) => {
+  emit('search', query)
+}
 </script>
 
 <template>
   <header class="header">
     <div class="container">
       <h1 class="header__title">Movie Catalog</h1>
-      <SearchBar />
+      <SearchBar @search="handleSearch" />
       <UserApp />
     </div>
   </header>

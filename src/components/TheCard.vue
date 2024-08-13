@@ -1,13 +1,25 @@
-<script></script>
+<script setup>
+defineProps({
+  movie: {
+    type: Object,
+    required: true
+  }
+})
+</script>
 
 <template>
   <div class="movie-list__card card">
-    <img class="card__image" src="../assets/icons/img-placeholder.png" alt="movie-image" />
+    <img
+      class="card__image"
+      :src="movie.Poster"
+      :alt="movie.Title"
+      @error="$event.target.src = '../assets/icons/img-placeholder.png'"
+    />
     <div class="card__list">
-      <span>Name:</span>
-      <span>Year:</span>
-      <span>imdbID:</span>
-      <span>Type:</span>
+      <span>Name: {{ movie.Title }}</span>
+      <span>Year: {{ movie.Year }}</span>
+      <span>imdbID: {{ movie.imdbID }}</span>
+      <span>Type: {{ movie.Type }}</span>
     </div>
   </div>
 </template>
@@ -22,13 +34,14 @@
 
 .card__image {
   flex: 1;
-  max-width: 300px;
+  width: 100%;
   object-fit: cover;
 }
 
 .card__list {
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
   gap: 10px;
   width: 100%;
 }
