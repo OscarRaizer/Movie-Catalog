@@ -1,8 +1,10 @@
 <script setup>
 defineProps({
   movie: {
-    type: Object,
-    required: true
+    Title: String,
+    Year: Number,
+    imdbID: Number,
+    type: Object
   }
 })
 </script>

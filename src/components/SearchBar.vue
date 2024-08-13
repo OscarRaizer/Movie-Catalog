@@ -1,11 +1,18 @@
 <script setup>
 import { ref, watch } from 'vue'
+import debounce from 'lodash.debounce'
 
 const searchTerm = ref('')
 const emit = defineEmits(['search'])
 
+const debouncedSearch = debounce((newValue) => {
+  if (newValue.trim() !== '') {
+    emit('search', newValue.trim())
+  }
+}, 300)
+
 watch(searchTerm, (newValue) => {
-  emit('search', newValue)
+  debouncedSearch(newValue)
 })
 </script>
 <template>
