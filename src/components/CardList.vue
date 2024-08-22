@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="movie-list">
+  <section class="movie-list" v-auto-animate>
     <div class="movie-list__title container">
       <h2>You seached for: {{ searchQuery }}, {{ totalResults }} results found</h2>
     </div>
