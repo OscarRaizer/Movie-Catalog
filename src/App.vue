@@ -11,6 +11,7 @@ const isLoading = ref(false)
 const error = ref(null)
 const currentPage = ref(1)
 const totalPages = ref(0)
+const totalResults = ref(0)
 
 const fetchMovies = async () => {
   if (!searchQuery.value) return
@@ -21,6 +22,7 @@ const fetchMovies = async () => {
       params: { apikey: '8523cbb8', s: searchQuery.value, page: currentPage.value }
     })
     movies.value = response.data.Search || []
+    totalResults.value = parseInt(response.data.totalResults) || 0
     totalPages.value = Math.ceil(response.data.totalResults / 10) || 0
     error.value = null
   } catch (err) {
@@ -46,7 +48,13 @@ const changePage = (page) => {
 <template>
   <div class="app">
     <HeaderApp @search="handleSearch" />
-    <CardList :movies="movies" :isLoading="isLoading" :error="error" />
+    <CardList
+      :movies="movies"
+      :isLoading="isLoading"
+      :error="error"
+      :search-query="searchQuery"
+      :totalResults="totalResults"
+    />
     <PaginationApp
       v-if="totalPages > 0"
       :currentPage="currentPage"

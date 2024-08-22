@@ -4,16 +4,23 @@ import TheCard from './TheCard.vue'
 defineProps({
   movies: Array,
   isLoading: Boolean,
-  error: String
+  error: String,
+  searchQuery: String,
+  totalResults: Number
 })
 </script>
 
 <template>
   <section class="movie-list">
+    <div class="movie-list__title container">
+      <h2>You seached for: {{ searchQuery }}, {{ totalResults }} results found</h2>
+    </div>
     <div class="movie-list__status" v-if="isLoading">Loading...</div>
-    <div class="movie-list__status--big" v-else-if="error">{{ error }}</div>
+    <div class="movie-list__status" v-else-if="error">{{ error }}</div>
     <div v-else class="container">
-      <TheCard v-for="movie in movies" :key="movie.imdbID" :movie="movie" />
+      <div class="movie-list__wrapper">
+        <TheCard v-for="movie in movies" :key="movie.imdbID" :movie="movie" />
+      </div>
     </div>
   </section>
 </template>
@@ -22,20 +29,21 @@ defineProps({
 .movie-list {
   display: flex;
   flex-direction: column;
-  .container {
+
+  .movie-list__wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 50px;
+  }
+
+  .movie-list__title {
+    font-weight: bold;
   }
 
   .movie-list__status {
     margin: 0 auto;
     font-size: 40px;
     font-family: 'Courier New', Courier, monospace;
-  }
-
-  .movie-list__status--big {
-    background-color: red;
   }
 }
 </style>
