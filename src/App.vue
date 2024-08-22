@@ -1,47 +1,65 @@
 <script setup>
 import HeaderApp from './components/HeaderApp.vue'
 import CardList from './components/CardList.vue'
+import PaginationApp from './components/PaginationApp.vue'
 import { ref } from 'vue'
 import axios from 'axios'
 
-// Рефы для данных
 const searchQuery = ref('')
 const movies = ref([])
 const isLoading = ref(false)
 const error = ref(null)
+const currentPage = ref(1)
+const totalPages = ref(0)
 
-// Функция для загрузки фильмов
 const fetchMovies = async () => {
-  if (!searchQuery.value) {
-    // Если строка поиска пуста, не выполняем запрос
-    movies.value = []
-    error.value = null
-    return
-  }
+  if (!searchQuery.value) return
 
+  isLoading.value = true
   try {
-    isLoading.value = true
-    const { data } = await axios.get('https://www.omdbapi.com/', {
-      params: { apikey: '8523cbb8', s: searchQuery.value }
+    const response = await axios.get('https://www.omdbapi.com/', {
+      params: { apikey: '8523cbb8', s: searchQuery.value, page: currentPage.value }
     })
-    movies.value = data.Search || []
-    error.value = data.Error || null
-  } catch {
-    error.value = 'An error occurred while fetching movies'
+    movies.value = response.data.Search || []
+    totalPages.value = Math.ceil(response.data.totalResults / 10) || 0
+    error.value = null
+  } catch (err) {
+    error.value = 'Failed to fetch movies'
     movies.value = []
-  } finally {
-    isLoading.value = false
+    totalPages.value = 0
   }
+  isLoading.value = false
 }
 
-// Функция обработки поиска
 const handleSearch = (query) => {
-  searchQuery.value = query.trim()
-  fetchMovies() // Запрос выполняется только если строка не пустая
+  searchQuery.value = query
+  currentPage.value = 1
+  fetchMovies()
+}
+
+const changePage = (page) => {
+  currentPage.value = page
+  fetchMovies()
 }
 </script>
 
 <template>
-  <HeaderApp @search="handleSearch" />
-  <CardList :movies="movies" :isLoading="isLoading" :error="error" />
+  <div class="app">
+    <HeaderApp @search="handleSearch" />
+    <CardList :movies="movies" :isLoading="isLoading" :error="error" />
+    <PaginationApp
+      v-if="totalPages > 0"
+      :currentPage="currentPage"
+      :totalPages="totalPages"
+      @changePage="changePage"
+    />
+  </div>
 </template>
+
+<style>
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+</style>

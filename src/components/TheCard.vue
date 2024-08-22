@@ -15,7 +15,7 @@ defineProps({
       class="card__image"
       :src="movie.Poster"
       :alt="movie.Title"
-      @error="$event.target.src = '../assets/icons/img-placeholder.png'"
+      @error="$event.target.src = '../assets/img-placeholder.png'"
     />
     <div class="card__list">
       <span>Name: {{ movie.Title }}</span>
