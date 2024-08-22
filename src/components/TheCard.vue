@@ -35,7 +35,7 @@ defineProps({
 }
 
 .card__image {
-  flex: 1;
+  height: 60%;
   width: 100%;
   object-fit: cover;
 }
