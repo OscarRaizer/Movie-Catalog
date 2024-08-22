@@ -1,5 +1,6 @@
 <script setup>
 import TheCard from './TheCard.vue'
+import LoadingIndicator from './LoadingIndicator.vue'
 
 defineProps({
   movies: Array,
@@ -15,7 +16,8 @@ defineProps({
     <div class="movie-list__title container">
       <h2>You seached for: {{ searchQuery }}, {{ totalResults }} results found</h2>
     </div>
-    <div class="movie-list__status" v-if="isLoading">Loading...</div>
+    <!-- <div class="movie-list__status" v-if="isLoading">Loading...</div> -->
+    <LoadingIndicator v-if="isLoading" />
     <div class="movie-list__status" v-else-if="error">{{ error }}</div>
     <div v-else class="container">
       <div class="movie-list__wrapper">

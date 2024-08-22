@@ -2,6 +2,7 @@
 import HeaderApp from './components/HeaderApp.vue'
 import CardList from './components/CardList.vue'
 import PaginationApp from './components/PaginationApp.vue'
+
 import { ref } from 'vue'
 import axios from 'axios'
 
