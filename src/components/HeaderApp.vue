@@ -23,6 +23,7 @@ const handleSearch = (query) => {
 @import '../assets/css/colors.scss';
 .header .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
